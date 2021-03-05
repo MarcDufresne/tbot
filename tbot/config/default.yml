@@ -1,0 +1,12 @@
+debug:
+  generate_recent_tweet: False
+
+sleep: 5
+
+twitter:
+  token:
+  accounts: []
+
+telegram:
+  token:
+  chat_id:

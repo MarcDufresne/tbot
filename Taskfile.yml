@@ -1,0 +1,21 @@
+version: '3'
+
+vars:
+  LINT_TARGETS: tbot/
+
+tasks:
+  format:
+    cmds:
+      - poetry run black {{.LINT_TARGETS}}
+      - poetry run autoflake --in-place --remove-all-unused-imports -r {{.LINT_TARGETS}}
+      - poetry run isort {{.LINT_TARGETS}}
+
+  lint:
+    cmds:
+      - poetry run flake8 {{.LINT_TARGETS}}
+
+  build:
+    env:
+      TAG: local
+    cmds:
+      - docker build -t $TAG .
