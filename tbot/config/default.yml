@@ -1,11 +1,11 @@
 debug:
-  generate_recent_tweet: False
+  fake_tweet: False
 
 sleep: 5
 
 twitter:
   token:
-  accounts: []
+  accounts: []  # name: str, replies: bool
 
 telegram:
   token:

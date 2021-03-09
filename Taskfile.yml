@@ -2,6 +2,8 @@ version: '3'
 
 vars:
   LINT_TARGETS: tbot/
+  DOCKER_REPO: marcdufresne
+  DOCKER_IMAGE: tbot
 
 tasks:
   format:
@@ -15,7 +17,17 @@ tasks:
       - poetry run flake8 {{.LINT_TARGETS}}
 
   build:
-    env:
-      TAG: local
+    vars:
+      VERSION:
+        sh: poetry version -s
     cmds:
-      - docker build -t $TAG .
+      - docker build -t "{{.DOCKER_REPO}}/{{.DOCKER_IMAGE}}:{{.VERSION}}" .
+
+  publish:
+    vars:
+      VERSION:
+        sh: poetry version -s
+    cmds:
+      - docker tag "{{.DOCKER_REPO}}/{{.DOCKER_IMAGE}}:{{.VERSION}}" "{{.DOCKER_REPO}}/{{.DOCKER_IMAGE}}:latest"
+      - docker push "{{.DOCKER_REPO}}/{{.DOCKER_IMAGE}}:{{.VERSION}}"
+      - docker push "{{.DOCKER_REPO}}/{{.DOCKER_IMAGE}}:latest"
