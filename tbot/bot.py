@@ -88,10 +88,11 @@ def bot():
                 telegram_title = f"New Tweet from {telegram_tweet_username}"
                 telegram_text = f"*[{telegram_title}]({tweet_url})*\n\n{telegram_tweet_text}"
 
-                try:
-                    telegram.send_message(config.telegram.chat_id, telegram_text)
-                except Exception as e:
-                    typer.secho(f"Error sending Telegram message: {str(e)}", fg="red")
+                for chat_id in config.telegram.chat_ids:
+                    try:
+                        telegram.send_message(chat_id, telegram_text)
+                    except Exception as e:
+                        typer.secho(f"Error sending Telegram message: {str(e)}", fg="red")
 
                 typer.secho("Telegram message sent!", fg="green")
 
